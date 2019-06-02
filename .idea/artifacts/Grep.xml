@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="GrepProject:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Grep_Projectjar</output-path>
+    <root id="root">
+      <element id="archive" name="GrepProject.jar">
+        <element id="module-output" name="GrepProject" />
+      </element>
+      <element id="library" level="project" name="Maven: args4j:args4j:2.33" />
+    </root>
+  </artifact>
+</component>
