@@ -3,26 +3,25 @@ package grep;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.regex.*;
 
 
 class Grep {
     @Option(name = "-r")
-    boolean r; //REMINDER: FOLLOWS FILTERING CONDITIONS
+    private boolean r; //REMINDER: FOLLOWS FILTERING CONDITIONS
     @Option(name = "-i")
-    boolean i; //REMINDER: IGNORE WORD CASE
+    private boolean i; //REMINDER: IGNORE WORD CASE
     @Option(name = "-v")
-    boolean v; //REMINDER: INVERTS FILTERING CONDITIONS
+    private boolean v; //REMINDER: INVERTS FILTERING CONDITIONS
     @Argument
-    String word;
+    private String word;
     @Argument(index = 1)
-    String file;
+    private String file;
 
-    List<String> wordFilter(List<String> lines) {
+    private List<String> wordFilter(List<String> lines) {
         if (i) word = word.toLowerCase();
-        List<String> output = new ArrayList<>();
+        List<String> output = new LinkedList<>();
         for(String line: lines) {
             boolean modifier = false;
             String currentLine = line;
@@ -30,15 +29,18 @@ class Grep {
                 currentLine = currentLine.toLowerCase();
             String[] Words = currentLine.split("\\s+");
             for (String Word : Words) {
-                if (word.toLowerCase().equals(Word)) modifier = true;
+                if (word.toLowerCase().equals(Word)) {
+                    modifier = true;
+                    break;
+                }
             }
             if ((v && !modifier) || (!v && modifier)) output.add(line);
         }
         return output;
     }
 
-    List<String> optionChosen(List<String> lines) {
-        List<String> output = new ArrayList<>();
+    private List<String> optionChosen(List<String> lines) {
+        List<String> output = new LinkedList<>();
         for(String line: lines){
             boolean aMatch = Pattern.compile(word).matcher(line).matches();
             if (!v) {
@@ -54,7 +56,7 @@ class Grep {
 
     List<String> getOutput() throws IOException {
         String input = file;
-        List<String> currentLines = new ArrayList<>();
+        List<String> currentLines = new LinkedList<>();
         List<String> output;
         if (!(new File(input).exists()) || !(new File(input).isFile()))
             System.out.println("Incorrect input");

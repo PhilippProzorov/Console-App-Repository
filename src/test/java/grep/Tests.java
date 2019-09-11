@@ -30,7 +30,7 @@ class Tests {
     void noInput() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"src/samples/input.txt"};
+        String[] input = {"src/samples/input1.txt"};
         Execute.main(input);
         assertEquals(output.toString(), "grep [-v] [-i] [-r] word inputname.txt" + nextLine);
     }
@@ -39,17 +39,17 @@ class Tests {
     void incorrectInput() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"life", "knife", "src/samples/input.txt"};
+        String[] input = {"life", "knife", "src/samples/input1.txt"};
         Execute.main(input);
         assertEquals(error.toString(),
-                "Too many arguments: src/samples/input.txt" + nextLine);
+                "Too many arguments: src/samples/input1.txt" + nextLine);
     }
 
     @Test
     void checkOne() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"wife", "src/samples/input.txt"};
+        String[] input = {"wife", "src/samples/input1.txt"};
         Execute.main(input);
         assertEquals(output.toString(), "the life of a wife is ended by the knife" + nextLine);
     }
@@ -58,16 +58,18 @@ class Tests {
     void parse() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"-r", "(\\S*\\s*)*(v)(\\S*\\s*)*", "src/samples/input.txt"};
+        String[] input = {"-r", "(\\S*\\s*)*(h)(\\S*\\s*)*", "src/samples/input2.txt"};
         Execute.main(input);
-        assertEquals(output.toString(), "tHE life ov a wive is enedd by theknive" + nextLine);
+        assertEquals(output.toString(), "He was an interior decorator, he killed 16 Czechoslovakians" + nextLine
+        + "Good thing I brought my suit" + nextLine + "He's getting away, don't let him" + nextLine +
+                "Wash hands after touching shoelaces" + nextLine + "Horosho, chto ya vzyal kostyum" + nextLine);
     }
 
     @Test
     void ignoreCase() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"-i", "The", "src/samples/input.txt"};
+        String[] input = {"-i", "The", "src/samples/input1.txt"};
         Execute.main(input);
         assertEquals(output.toString(),
                 "the life of a wife is ended by the knife" + nextLine +
@@ -80,7 +82,7 @@ class Tests {
     void invert() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"-v", "feofa", "src/samples/input.txt"};
+        String[] input = {"-v", "feofa", "src/samples/input1.txt"};
         Execute.main(input);
         assertEquals(output.toString(),
                 "the life of a wife is ended by the knife" + nextLine +
@@ -94,13 +96,11 @@ class Tests {
     void invertAndParse() {
         System.setOut(new PrintStream(output));
         System.setErr(new PrintStream(error));
-        String[] input = {"-v", "-r", "(\\S*\\s*)*(v)(\\S*\\s*)*", "src/samples/input.txt"};
+        String[] input = {"-v", "-r", "(\\S*\\s*)*(h)(\\S*\\s*)*", "src/samples/input2.txt"};
         Execute.main(input);
         assertEquals(output.toString(),
-                "the life of a wife is ended by the knife" + nextLine +
-                        "Theli feofa Wifeise ndedby thekni fe" + nextLine +
-                        "the lifeofaWi feisen dedbyth eknife" + nextLine +
-                        "tHeLiFe OfAwIfEiSeNdE dByThEk NiFe" + nextLine +
-                        "The Life Of A Wife Is Ended By The Knife" + nextLine);
+                "Clearly based" + nextLine +
+                "Any proof of sweet lies?" + nextLine +
+                "He pronounced it speen"+ nextLine);
     }
 }
