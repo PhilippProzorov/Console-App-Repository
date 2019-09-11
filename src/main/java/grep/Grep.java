@@ -27,9 +27,9 @@ class Grep {
             String currentLine = line;
             if (i)
                 currentLine = currentLine.toLowerCase();
-            String[] Words = currentLine.split("\\s+");
-            for (String Word : Words) {
-                if (word.toLowerCase().equals(Word)) {
+            String[] words = currentLine.split("\\s+");
+            for (String word : words) {
+                if (word.toLowerCase().equals(word)) {
                     modifier = true;
                     break;
                 }
@@ -41,7 +41,7 @@ class Grep {
 
     private List<String> optionChosen(List<String> lines) {
         List<String> output = new LinkedList<>();
-        for(String line: lines){
+        for(String line: lines) {
             boolean aMatch = Pattern.compile(word).matcher(line).matches();
             if (!v) {
                 if (aMatch)
@@ -56,12 +56,14 @@ class Grep {
 
     List<String> getOutput() throws IOException {
         String input = file;
+        final boolean nonexistent = !(new File(input).exists());
+        final boolean notAFile = !(new File(input).isFile());
         List<String> currentLines = new LinkedList<>();
         List<String> output;
-        if (!(new File(input).exists()) || !(new File(input).isFile()))
+        if (nonexistent || notAFile)
             System.out.println("Incorrect input");
         try (BufferedReader reader =
-                     new BufferedReader(new FileReader(input))){
+                     new BufferedReader(new FileReader(input))) {
             reader.lines().forEach(currentLines::add);
         }
         if (r)
