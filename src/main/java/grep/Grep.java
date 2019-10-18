@@ -29,7 +29,7 @@ class Grep {
                 currentLine = currentLine.toLowerCase();
             String[] words = currentLine.split("\\s+");
             for (String word : words) {
-                if (word.toLowerCase().equals(word)) {
+                if (this.word.toLowerCase().equals(word)) {
                     modifier = true;
                     break;
                 }
